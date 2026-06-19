@@ -7,5 +7,15 @@
         "pi-code"
     ],
     "author": "diegorezm",
-    "license": "MIT"
+    "license": "MIT",
+    "dependencies": {
+        "@earendil-works/pi-ai": "^0.79.6",
+        "@earendil-works/pi-coding-agent": "^0.79.6",
+        "@earendil-works/pi-tui": "^0.79.6",
+        "typebox": "^1.2.16"
+    },
+    "devDependencies": {
+        "@types/node": "^25.9.3",
+        "typescript": "^6.0.3"
+    }
 }
