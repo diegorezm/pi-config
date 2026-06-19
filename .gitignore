@@ -5,3 +5,10 @@ bin/
 cache/
 *.log
 .env
+node_modules
+**/node_modules/
+.env
+models.json
+settings.json
+trust.json
+mcp-cache.json
