@@ -1,0 +1,7 @@
+auth.json
+sessions/
+history/
+bin/
+cache/
+*.log
+.env

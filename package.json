@@ -1,0 +1,11 @@
+{
+    "name": "pi-config",
+    "version": "1.0.0",
+    "description": "My pi config.",
+    "keywords": [
+        "pi",
+        "pi-code"
+    ],
+    "author": "diegorezm",
+    "license": "MIT"
+}
