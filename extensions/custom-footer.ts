@@ -24,7 +24,7 @@ type FooterCtx = {
     model: ExtensionContext["model"];
 };
 
-function enableFooter(ctx: FooterCtx) {
+function displayFooter(ctx: FooterCtx) {
     ctx.ui.setFooter((tui, theme, footerData) => {
         const unsub = footerData.onBranchChange(() => tui.requestRender());
         return {
@@ -76,7 +76,7 @@ export default function(pi: ExtensionAPI) {
         handler: async (_args, ctx) => {
             enabled = !enabled;
             if (enabled) {
-                enableFooter(ctx);
+                displayFooter(ctx);
                 ctx.ui.notify("Custom footer enabled", "info");
             } else {
                 ctx.ui.setFooter(undefined);
@@ -88,7 +88,7 @@ export default function(pi: ExtensionAPI) {
     pi.on("session_start", (_evnt, ctx) => {
         if (!enabled) {
             enabled = true;
-            enableFooter(ctx);
+            displayFooter(ctx);
         }
     })
 }
