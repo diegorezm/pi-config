@@ -5,6 +5,9 @@ Pi extension that registers two public-web tools:
 - `webfetch` — fetch one public URL as markdown, text, html, or an inline raster image
 - `websearch` — search the public web for current information and candidate URLs
 
+## Credits
+This whole thing was taken from: https://github.com/dmmulroy/.dotfiles/
+
 ## Tools
 
 ### `webfetch`
@@ -106,6 +109,3 @@ To change the defaults, edit:
 - search tool: `home/.pi/agent/extensions/web-tools/websearch.ts`
 - Exa provider: `home/.pi/agent/extensions/web-tools/providers/exa.ts`
 
-# Credits
-
-This whole thing was taken from: https://github.com/dmmulroy/.dotfiles/
