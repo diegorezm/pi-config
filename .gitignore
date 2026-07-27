@@ -1,6 +1,7 @@
 auth.json
 sessions/
 history/
+models-store.json
 bin/
 cache/
 *.log
