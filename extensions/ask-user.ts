@@ -2,7 +2,7 @@
  * ask_user - Lets the model ask one interactive question.
  *
  * Supported kinds: multiple_choice (default), yes_no, true_false,
- * free_text, rating, and multi_select.
+ * rating, and multi_select.
  */
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
@@ -15,7 +15,7 @@ const MIN_RATING = 0;
 const MAX_RATING = 10;
 
 const KindSchema = StringEnum(
-    ["multiple_choice", "yes_no", "true_false", "free_text", "rating", "multi_select"] as const,
+    ["multiple_choice", "yes_no", "true_false", "rating", "multi_select"] as const,
     { description: "Question interaction type; defaults to multiple_choice." },
 );
 
@@ -109,7 +109,6 @@ function normalizeKind(kind: unknown): AskUserKind {
     switch (kind) {
         case "yes_no":
         case "true_false":
-        case "free_text":
         case "rating":
         case "multi_select":
             return kind;
@@ -166,11 +165,11 @@ export default function askUser(pi: ExtensionAPI) {
         name: "ask_user",
         label: "Ask User",
         description:
-            "Ask the user exactly one interactive question. Kinds: multiple_choice (default), yes_no, true_false, free_text, rating, and multi_select.",
+            "Ask the user exactly one interactive question. Kinds: multiple_choice (default), yes_no, true_false, rating, and multi_select.",
         promptSnippet: "Ask exactly one interactive question; select the appropriate ask_user kind.",
         promptGuidelines: [
             "Use ask_user for a single question requiring interactive input instead of asking it in plain text.",
-            "Use ask_user kind yes_no, true_false, free_text, rating, or multi_select when appropriate; otherwise use multiple_choice.",
+            "Use ask_user kind yes_no, true_false, rating, or multi_select when appropriate; otherwise use multiple_choice.",
             "Ask exactly one question per ask_user call and ask follow-ups in later calls.",
         ],
         parameters: AskUserParams,
@@ -210,7 +209,7 @@ export default function askUser(pi: ExtensionAPI) {
 
             const result = await ctx.ui.custom<SelectionResult>((tui, theme, _kb, done) => {
                 let optionIndex = 0;
-                let editMode = validated.kind === "free_text";
+                let editMode = false;
                 let cachedLines: string[] | undefined;
                 let validationMessage: string | undefined;
                 const selectedIndexes = new Set<number>();
@@ -269,13 +268,10 @@ export default function askUser(pi: ExtensionAPI) {
                 function handleInput(data: string) {
                     if (editMode) {
                         if (matchesKey(data, Key.escape)) {
-                            if (validated.kind === "free_text") done(null);
-                            else {
-                                editMode = false;
-                                editor.setText("");
-                                validationMessage = undefined;
-                                refresh();
-                            }
+                            editMode = false;
+                            editor.setText("");
+                            validationMessage = undefined;
+                            refresh();
                             return;
                         }
                         editor.handleInput(data);
@@ -357,7 +353,7 @@ export default function askUser(pi: ExtensionAPI) {
 
                     lines.push("");
                     if (validationMessage) add(theme.fg("warning", ` ${validationMessage}`));
-                    if (editMode) add(theme.fg("dim", validated.kind === "free_text" ? " Enter submit • Esc dismiss" : " Enter submit • Esc back to options"));
+                    if (editMode) add(theme.fg("dim", " Enter submit • Esc back to options"));
                     else if (validated.kind === "multi_select") add(theme.fg("dim", " ↑↓ move • Space toggle • Enter submit • Esc dismiss"));
                     else add(theme.fg("dim", ` ↑↓ or 1-${displayOptions.length} select • Enter confirm • Esc dismiss`));
                     add(theme.fg("accent", "─".repeat(renderWidth)));
